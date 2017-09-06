@@ -29,6 +29,8 @@ pagelinks="$1""wiki-""$dump_date""-pagelinks.sql"
 page="$1""wiki-""$dump_date""-page.sql"
 wget -q "$download""$dump_date""/""$pagelinks"".gz" "$download""$dump_date""/""$page"".gz"
 gunzip -f "$1"*.gz
+
+export LC_ALL=C.UTF-8
 sed -n "s/),(/)\n(/gp" $pagelinks | sed -n "s/\(.*\)(\(.*\),0,'\(.*\)',0)\(.*\)/\2\t\3/p" > "$1""pagelinks.lines"
 
 # the page table does not always contain 14 fields (has 14 in MediaWiki 1.30.0-wmf.1, additional column "page_no_title_convert" in MediaWiki 1.30.0-wmf.2)
@@ -40,6 +42,7 @@ fi
 rm "$1"*.sql
 
 if [ "$1" == "wikidata" ]; then
+  export LC_ALL=C
   sort --field-separator=$'\t' --key=1 -o "$1""page.lines" "$1""page.lines"
   sort --field-separator=$'\t' --key=1 -o "$1""pagelinks.lines" "$1""pagelinks.lines"
   join -j 1 "$1""pagelinks.lines" "$1""page.lines" -o 2.2,1.2 -t $'\t' > "$1""pagelinks2.lines"
@@ -53,7 +56,6 @@ else
   gunzip -f "$1"*.gz
 
   ###################### PRE-PROCESSING
-  export LC_ALL=C.UTF-8
   sed -n "s/),(/)\n(/gp" $pageprops | sed -n "s/\(.*\)(\(.*\),'wikibase_item','\(.*\)',\(.*\))\(.*\)/\3\t\2/p" > "$1""pageprops.lines"
   sed -n "s/),(/)\n(/gp" $redirects | sed -n "s/\(.*\)(\(.*\),0,'\(.*\)','\(.*\)','\(.*\)')\(.*\)/\2\t\3/p" > "$1""redirects.lines"
 
