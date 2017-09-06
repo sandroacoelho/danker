@@ -18,14 +18,14 @@ __danker__ is a compilation of Bash and Python3 scripts that enables the computa
    ./danker.sh en BIGMEM
    ```
    
-* Compute PageRank on the union of all language editions:
+* Compute PageRank on the union of the links of all language editions + wikidata:
 
    ```bash
    ./danker.sh ALL
    ./danker.sh ALL BIGMEM    # caution, you will need some main memory for that
    ```
    
-* Compute PageRank for each Wikipedia language edition:
+* Compute PageRank for each Wikipedia language edition and wikidata respectively:
 
    ```bash
    for i in `./lib/getLanguages.sh`; do ./danker.sh "$i"; done
