@@ -22,7 +22,6 @@ start_value=0.1
 if [ "$1" == "ALL" ]; then
   filename='all.links'
   for i in `./lib/getLanguages.sh`; do ./lib/createLinks.sh "$i" >> all-link-files.txt; done
-  ./lib/createLinks.sh wikidata >> all-link-files.txt
   for i in `cat all-link-files.txt`; do cat "$i" >> "$filename"; done
   sort --field-separator=$'\t' --key=1 --temporary-directory=. -no "$filename" "$filename"
 else
