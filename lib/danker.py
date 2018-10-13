@@ -60,6 +60,7 @@ def danker(rightSorted, iterations, damping, startValue):
 				dictionary[current] = currentDank[0], dank
 	#			print(str(current) + '\t' + str(inlink) + '\t' + str(dictionary[current][1]))
 				previous = current
+				
 		# after the first iteration, fix nodes that don't have inlinks.
 		if i == 0:
 			for n in dictionary.keys():
