@@ -51,14 +51,20 @@ def init(leftSorted, startValue):
 
 def danker(iterations, damping, startValue):
 	for i in range(0, iterations):
-		print(str(i + 1) + ".", end="", flush=True, file=sys.stderr)	
-		for i in dictionary.keys():
+		print(str(i + 1) + ".", end="", flush=True, file=sys.stderr)
+		k = list(dictionary.keys())
+		k.sort()
+		for i in k:
 			current = dictionary.get(i)
-			dank = 1 - damping	
-			for j in current[2]:
+			dank = 1 - damping
+			dictionary[i] = current[0], dank, current[2]
+			m = current[2]
+			m.sort()
+			for j in m:
 				inDank = dictionary.get(j)
 				dank = dank + (damping * inDank[1] / inDank[0])
-			dictionary[i] = current[0], dank, current[2]
+	#			print(str(i) + '\t' + str(j) + '\t' + str(dank))
+				dictionary[i] = current[0], dank, current[2]
 	print("", file=sys.stderr)
 
 if __name__ == '__main__':

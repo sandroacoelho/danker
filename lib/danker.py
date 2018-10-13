@@ -50,10 +50,17 @@ def danker(rightSorted, iterations, damping, startValue):
 				if (previous != current):
 					currentDank = currentDank[0], (1 - damping)
 				inlink = int(line.split("\t")[0])
-				inDank = dictionary.get(inlink)
-				dank = currentDank[1] + (damping * inDank[1] / inDank[0])
+				if inlink < current and dictionary.get(inlink)[1] == startValue:
+					dictionary[inlink] = dictionary.get(inlink)[0], 1 - damping
+				if inlink == current:
+					dank = currentDank[1] + (damping * currentDank[1] / currentDank[0])
+				else:
+					inDank = dictionary.get(inlink)
+					dank = currentDank[1] + (damping * inDank[1] / inDank[0])
 				dictionary[current] = currentDank[0], dank
+	#			print(str(current) + '\t' + str(inlink) + '\t' + str(dictionary[current][1]))
 				previous = current
+		# after the first iteration, fix nodes that don't have inlinks.
 		if i == 0:
 			for n in dictionary.keys():
 				node = dictionary[n]
